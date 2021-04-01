@@ -64,8 +64,4 @@ public class Client {
         }
         return mid;
     }
-
-    public class ConnectNigor {
-
-    }
 }
