@@ -2,6 +2,7 @@ package KingOfHill.client;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class Client {
     private static Socket clientSocket;
@@ -13,11 +14,14 @@ public class Client {
     static int high = 127;
     static int mid;
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
+        ConnectNigor mainServer = new ConnectNigor();
         try {
             try {
+                mainServer.selectRequest("registr");
+                ArrayList<String> participantTable = ConnectNigor.participantTable;
                 while (run){
-                    clientSocket = new Socket("localhost",4004); // Запрашиваем доступ на сервер
+                    clientSocket = new Socket(participantTable.get(1),4004); // Запрашиваем доступ на сервер
                     in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                     System.out.println("Подключен");
@@ -64,4 +68,5 @@ public class Client {
         }
         return mid;
     }
+
 }
