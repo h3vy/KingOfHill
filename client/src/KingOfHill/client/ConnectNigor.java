@@ -17,8 +17,12 @@ public class ConnectNigor {
             case ("ready"): message = readyRequest(); break;
             case ("delete"): message = deleteRequest(); break;
             case ("table"): message = acceptTable(); break;
-            //case ("death"): message = deathRequest(); break;
+            case ("kill"):
+                InetAddress ipEnemy = Client.enemyIP;
+                message = killRequest(ipEnemy);
+                break;
         }
+
 
         try{
             DatagramSocket clientSocket = new DatagramSocket();
@@ -55,7 +59,7 @@ public class ConnectNigor {
 
     }
 
-    public byte[] reqistrRequest(){
+    private byte[] reqistrRequest(){
         byte[] message = new byte[255];
         ArrayList<Byte> fillMessage = new ArrayList<Byte>();
         String password = "valid_pass";
@@ -80,19 +84,19 @@ public class ConnectNigor {
         return message;
     }
 
-    public byte[] readyRequest(){
+    private byte[] readyRequest(){
         byte[] message = new byte[255];
         message[0] = (byte) 2;
         return message;
     }
 
-    public byte[] deleteRequest(){
+    private byte[] deleteRequest(){
         byte[] message = new byte[255];
         message[0] = (byte) 1;
         return message;
     }
 
-    public static byte[] deathRequest(InetAddress ia){
+    private static byte[] killRequest(InetAddress ia){
         byte[] message = new byte[255];
         byte[] ip;
         ip = ia.getAddress();
@@ -101,7 +105,7 @@ public class ConnectNigor {
         return message;
     }
 
-    public static byte[] acceptTable(){
+    private static byte[] acceptTable(){
         byte[] message = new byte[255];
         message[0] = (byte) 1;
         return message;

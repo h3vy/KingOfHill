@@ -9,18 +9,21 @@ public class Client {
     private static BufferedReader in; //Чтение сокета
     private static BufferedWriter out;
     private static String serverWord = "N";
-    private static Boolean run = true;
+    private static String myIP;
+    public static InetAddress enemyIP;
     static int low = 0;
     static int high = 127;
     static int mid;
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws UnknownHostException {
         ConnectNigor mainServer = new ConnectNigor();
+        InetAddress addr = InetAddress.getLocalHost(); // Вычисляем свой ip для дальнейших действий
+        myIP = addr.getHostAddress(); // Внутренний IP
         try {
             try {
                 mainServer.selectRequest("registr");
                 ArrayList<String> participantTable = ConnectNigor.participantTable;
-                while (run){
+                while (participantTable.contains(myIP)){ // Мы играем пока наш IP в списке участников
                     clientSocket = new Socket(participantTable.get(1),4004); // Запрашиваем доступ на сервер
                     in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
@@ -30,13 +33,16 @@ public class Client {
                     serverWord = in.readLine();
                     System.out.println(serverWord);
                     if (serverWord.equals("D")){
-                        run = false;
+                        enemyIP = clientSocket.getInetAddress(); // Получаем Ip игрока перед его смертью
+                        mainServer.selectRequest("kill");
                     }
+                    mainServer.selectRequest("table");
                 }
             } catch (Exception e){
                 System.out.println("Ошибка");
             }
             finally {
+                mainServer.selectRequest("delete"); // Отправляем запрос о нашей смерти
                 clientSocket.close();
                 in.close();
                 out.close();
