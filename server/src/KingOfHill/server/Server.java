@@ -7,7 +7,6 @@ import java.io.*;
 public class Server {
     private static Socket clientSocket; // Сокет общения
     private static ServerSocket serverSocket; // Сокет сервера
-    private static InetAddress ipEnemy;
     private static BufferedReader in; // Чтение из сокета
     private static BufferedWriter out; // Запись в сокет
     private static Boolean run = true;
@@ -19,7 +18,6 @@ public class Server {
                 serverSocket = new ServerSocket(4004); // Слушаем порт
                 System.out.println("Сервер запущен");
                 clientSocket = serverSocket.accept(); // Ждем подключения
-                ipEnemy = serverSocket.getInetAddress();
                 try {
                     while (run){
                         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

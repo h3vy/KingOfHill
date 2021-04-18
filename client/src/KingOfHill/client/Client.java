@@ -9,7 +9,6 @@ public class Client {
     private static BufferedReader in; //Чтение сокета
     private static BufferedWriter out;
     private static String serverWord = "N";
-    private static String myIP;
     public static InetAddress enemyIP;
     static int low = 0;
     static int high = 127;
@@ -18,19 +17,31 @@ public class Client {
     public static void main(String[] args) throws UnknownHostException {
         ConnectNigor mainServer = new ConnectNigor();
         InetAddress addr = InetAddress.getLocalHost(); // Вычисляем свой ip для дальнейших действий
-        myIP = addr.getHostAddress(); // Внутренний IP
+        String myIP = addr.getHostAddress(); // Внутренний IP
+        int sendNumber = 0;
+        int countPlayer = 0;
         try {
             try {
                 mainServer.selectRequest("registr");
                 ArrayList<String> participantTable = ConnectNigor.participantTable;
                 while (participantTable.contains(myIP)){ // Мы играем пока наш IP в списке участников
-                    clientSocket = new Socket(participantTable.get(1),4004); // Запрашиваем доступ на сервер
+                    String hostPlayer = participantTable.get(countPlayer); // Получаем ip игрока из списка
+                    if (hostPlayer.equals(myIP)) { // Если ip совпадает с нашим
+                        countPlayer += 1; // увеличиваем счетик на 1
+                        hostPlayer = participantTable.get(countPlayer); // и берём другой ip
+                    }
+                    clientSocket = new Socket(hostPlayer,4004); // Запрашиваем доступ на сервер
                     in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                     System.out.println("Подключен");
-                    out.write(binary_search(serverWord)); // Кидаем сообщение на сервер
+                    sendNumber = binary_search(serverWord); // Отправляемое число
+                    out.write(sendNumber); // Кидаем сообщение на сервер
                     out.flush();
                     serverWord = in.readLine();
+                    while (serverWord.equals("")) { // Отсылаем сообщение на сервер, если он не отправляет нам ответку
+                        out.write(sendNumber);
+                        out.flush();
+                    }
                     System.out.println(serverWord);
                     if (serverWord.equals("D")){
                         enemyIP = clientSocket.getInetAddress(); // Получаем Ip игрока перед его смертью
