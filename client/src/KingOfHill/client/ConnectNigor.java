@@ -29,12 +29,23 @@ public class ConnectNigor {
             InetAddress IPAddress = InetAddress.getByName("localhost");
             // Создайте соответствующие буферы
             byte[] receivingDataBuffer = new byte[255];
-            // Отправка пакета
-            DatagramPacket sendingPacket = new DatagramPacket(message,message.length,IPAddress, SERVER_PORT);
-            clientSocket.send(sendingPacket);
-            // Получение пакета
-            DatagramPacket receivingPacket = new DatagramPacket(receivingDataBuffer,receivingDataBuffer.length);
-            clientSocket.receive(receivingPacket);
+            DatagramPacket sendingPacket = new DatagramPacket(message,message.length,IPAddress, SERVER_PORT); // Формирование пакета отправки
+            DatagramPacket receivingPacket = new DatagramPacket(receivingDataBuffer,receivingDataBuffer.length); // Формирования пакета приёма
+//            clientSocket.receive(receivingPacket);
+            clientSocket.setSoTimeout(1000);
+            boolean continueSending = true;
+            int counter = 0;
+            while (continueSending && counter < 10) {
+                clientSocket.send(sendingPacket);
+                counter++;
+                try {
+                    clientSocket.receive(receivingPacket);
+                    continueSending = false; // Пакет получен, останавливаем отправка запроса
+                }
+                catch (SocketTimeoutException e) {
+                    clientSocket.send(sendingPacket); // Ответ не получен спустя 1 секунду, повторяем отправка
+                }
+            }
             if (nameRequest.equals("registr")){
                 //String receivedData = new String(receivingPacket.getData());
                 byte[] buf = receivingPacket.getData();
