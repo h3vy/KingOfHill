@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class ConnectNigor {
     public final static int SERVER_PORT = 3333;
+    public final static int RECEIVE_PORT = 4444;
     public static ArrayList<String> participantTable;
 
 
@@ -25,7 +26,7 @@ public class ConnectNigor {
 
 
         try{
-            DatagramSocket clientSocket = new DatagramSocket();
+            DatagramSocket clientSocket = new DatagramSocket(RECEIVE_PORT);
             InetAddress IPAddress = InetAddress.getByName("25.80.244.184");
             clientSocket.connect(IPAddress,SERVER_PORT);
             // Создайте соответствующие буферы
@@ -84,8 +85,8 @@ public class ConnectNigor {
         for(int i = 0; i < password.length(); i++){
             fillMessage.add((byte)password.charAt(i));
         }
-        byte b1 = (byte) (255 & SERVER_PORT); // 1 байт пароля сервера
-        byte b2 = (byte) (((255 << 8) & SERVER_PORT) >> 8); // 2 байт пароля сервера
+        byte b1 = (byte) (255 & RECEIVE_PORT); // 1 байт пароля сервера
+        byte b2 = (byte) (((255 << 8) & RECEIVE_PORT) >> 8); // 2 байт пароля сервера
         fillMessage.add(b1);
         fillMessage.add(b2);
         for(int i = 0; i < username.length(); i++){
