@@ -33,7 +33,7 @@ public class ConnectNigor {
             byte[] receivingDataBuffer = new byte[255];
             DatagramPacket sendingPacket = new DatagramPacket(message,message.length,IPAddress, SERVER_PORT); // Формирование пакета отправки
             DatagramPacket receivingPacket = new DatagramPacket(receivingDataBuffer,receivingDataBuffer.length); // Формирования пакета приёма
-
+            System.out.println(clientSocket.getLocalPort());
             clientSocket.setSoTimeout(1000);
             boolean continueSending = true;
             int counter = 0;
