@@ -30,7 +30,7 @@ public class Client {
                         countPlayer += 1; // увеличиваем счетик на 1
                         hostPlayer = participantTable.get(countPlayer); // и берём другой ip
                     }
-                    clientSocket = new Socket(hostPlayer,4004); // Запрашиваем доступ на сервер
+                    clientSocket = new Socket(hostPlayer,3333); // Запрашиваем доступ на сервер
                     in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                     System.out.println("Подключен");

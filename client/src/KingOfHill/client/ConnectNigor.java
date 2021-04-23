@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 
 public class ConnectNigor {
-    public final static int SERVER_PORT = 4444;
+    public final static int SERVER_PORT = 3333;
     public static ArrayList<String> participantTable;
 
 
@@ -26,12 +26,13 @@ public class ConnectNigor {
 
         try{
             DatagramSocket clientSocket = new DatagramSocket();
-            InetAddress IPAddress = InetAddress.getByName("localhost");
+            InetAddress IPAddress = InetAddress.getByName("25.80.244.184");
+            clientSocket.connect(IPAddress,SERVER_PORT);
             // Создайте соответствующие буферы
             byte[] receivingDataBuffer = new byte[255];
             DatagramPacket sendingPacket = new DatagramPacket(message,message.length,IPAddress, SERVER_PORT); // Формирование пакета отправки
             DatagramPacket receivingPacket = new DatagramPacket(receivingDataBuffer,receivingDataBuffer.length); // Формирования пакета приёма
-//            clientSocket.receive(receivingPacket);
+
             clientSocket.setSoTimeout(1000);
             boolean continueSending = true;
             int counter = 0;
@@ -43,17 +44,20 @@ public class ConnectNigor {
                     continueSending = false; // Пакет получен, останавливаем отправка запроса
                 }
                 catch (SocketTimeoutException e) {
-                    clientSocket.send(sendingPacket); // Ответ не получен спустя 1 секунду, повторяем отправка
+                    clientSocket.send(sendingPacket); // Ответ не получен спустя 1 секунду, повторяем отправку
                 }
             }
+//            while (receivingPacket == null){
+//                clientSocket.send(sendingPacket);
+//                clientSocket.receive(receivingPacket);
+//            }
             if (nameRequest.equals("registr")){
-                //String receivedData = new String(receivingPacket.getData());
                 byte[] buf = receivingPacket.getData();
                 participantTable = fillTable(buf); // Заполняем таблицу IP адресов
                 receivingPacket = new DatagramPacket(receivingDataBuffer,receivingDataBuffer.length); // Заново прослушиваем порт
                 clientSocket.receive(receivingPacket); // Получаем сообщение
                 buf = receivingPacket.getData();
-                if (buf[0] == 0){
+                if (buf[0] == 0){ // Если код запроса сервера = 0
                     selectRequest("ready");
                 }
             } else if (nameRequest.equals("table")){
@@ -73,7 +77,7 @@ public class ConnectNigor {
     private byte[] reqistrRequest(){
         byte[] message = new byte[255];
         ArrayList<Byte> fillMessage = new ArrayList<Byte>();
-        String password = "valid_pass";
+        String password = "valid cd";
         String username = "stroenevsd";
 
         fillMessage.add((byte) 0); // Код запроса для регистрации
@@ -118,7 +122,7 @@ public class ConnectNigor {
 
     private static byte[] acceptTable(){
         byte[] message = new byte[255];
-        message[0] = (byte) 1;
+        message[0] = (byte) 4;
         return message;
     }
 
