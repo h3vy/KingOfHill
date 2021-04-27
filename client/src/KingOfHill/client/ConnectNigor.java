@@ -9,9 +9,96 @@ public class ConnectNigor {
     public final static int SERVER_PORT = 3333;
     public final static int RECEIVE_PORT = 4444;
     public static ArrayList<String> participantTable;
+    private static DatagramSocket clientSocket;
+    private static DatagramSocket serverSocket;
+    private static DatagramPacket receivingPacket;
+    private static DatagramPacket activityPacket;
+    private static InetAddress IPAddress;
+    public static String myIP;
+    private final byte[] receivingDataBuffer = new byte[255];
+    private final byte[] activityDataBuffer = new byte[255];
 
 
-    public void selectRequest(String nameRequest) throws IOException{
+    public static void initSocket() throws IOException{ // Инициализация потоков для UDP
+        clientSocket = new DatagramSocket();
+        serverSocket = new DatagramSocket(RECEIVE_PORT);
+        IPAddress = InetAddress.getByName("127.0.0.1");
+        clientSocket.connect(IPAddress,SERVER_PORT);
+    }
+
+    public void processingRequest(String nameRequest) throws IOException { // Обмен пакетами
+        try{
+            activityDataBuffer[0] = (byte) 5; // Закидываем 5-ку в пакет "активности"
+            byte[] message = selectRequest(nameRequest); // Получаем массив байтов
+            DatagramPacket sendingPacket = new DatagramPacket(message,message.length,IPAddress, SERVER_PORT); // Формирование пакета отправки
+            receivingPacket = new DatagramPacket(receivingDataBuffer,receivingDataBuffer.length); // Формирования пакета приёма
+            activityPacket = new DatagramPacket(activityDataBuffer,activityDataBuffer.length); // Формирование пакета "активности"
+            clientSocket.setSoTimeout(1000);
+            boolean continueSending = true;
+            int counter = 0;
+            while (continueSending && counter < 10) {
+                clientSocket.send(activityPacket);
+                clientSocket.send(sendingPacket);
+                counter++;
+                try {
+                    serverSocket.receive(receivingPacket);
+                    continueSending = false; // Пакет получен, останавливаем отправка запроса
+                }
+                catch (SocketTimeoutException e) {
+                    clientSocket.send(sendingPacket); // Ответ не получен спустя 1 секунду, повторяем отправку
+                }
+            }
+            serverOperation(receivingPacket.getData());
+        }
+        catch(SocketException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void serverOperation(byte[] serverResponse) throws IOException {
+        switch (serverResponse[0]) {
+            case 0: { // Пропуск всех нулей
+                while (serverResponse[0] == 0){
+                    serverSocket.receive(receivingPacket);
+                }
+                break;
+            }
+            case 1: { // Запрашиваем таблицу
+                processingRequest("table");
+                break;
+            }
+            case 2: {
+                participantTable = fillTable(serverResponse); // Заполняем таблицу IP адресов
+                break;
+            }
+            case 3: {
+                serverSocket.receive(receivingPacket);
+                break;
+            }
+            case 4: { // Запрос, который следует после регистрации
+                byte[] buf;
+                // Получаем наш IP
+                myIP = ((0xff & (int)serverResponse[1]) + "." + (0xff & (int) serverResponse[2]) + "." + (0xff & (int) serverResponse[3]) + "." + (0xff & (int) serverResponse[4]));
+                receivingPacket = new DatagramPacket(receivingDataBuffer, receivingDataBuffer.length); // Заново прослушиваем порт
+                serverSocket.receive(receivingPacket); // Получаем сообщение
+                buf = receivingPacket.getData();
+                if (buf[0] == 0) { // Если код запроса сервера = 0
+                    processingRequest("ready");
+                }
+                break;
+            }
+            case 5:{
+                while (serverResponse[0] == 5){
+                    clientSocket.send(activityPacket); // Если нет необходимости - можно убрать
+                    serverSocket.receive(receivingPacket);
+                }
+                break;
+            }
+        }
+    }
+
+
+    private byte[] selectRequest(String nameRequest) throws IOException{
         byte[] message = new byte[255];
         switch (nameRequest){
             case ("registr"): message = reqistrRequest(); break;
@@ -23,56 +110,7 @@ public class ConnectNigor {
                 message = killRequest(ipEnemy);
                 break;
         }
-
-
-        try{
-            DatagramSocket clientSocket = new DatagramSocket(RECEIVE_PORT);
-            InetAddress IPAddress = InetAddress.getByName("25.80.244.184");
-            clientSocket.connect(IPAddress,SERVER_PORT);
-            // Создайте соответствующие буферы
-            byte[] receivingDataBuffer = new byte[255];
-            DatagramPacket sendingPacket = new DatagramPacket(message,message.length,IPAddress, SERVER_PORT); // Формирование пакета отправки
-            DatagramPacket receivingPacket = new DatagramPacket(receivingDataBuffer,receivingDataBuffer.length); // Формирования пакета приёма
-            System.out.println(clientSocket.getLocalPort());
-            clientSocket.setSoTimeout(1000);
-            boolean continueSending = true;
-            int counter = 0;
-            while (continueSending && counter < 10) {
-                clientSocket.send(sendingPacket);
-                counter++;
-                try {
-                    clientSocket.receive(receivingPacket);
-                    continueSending = false; // Пакет получен, останавливаем отправка запроса
-                }
-                catch (SocketTimeoutException e) {
-                    clientSocket.send(sendingPacket); // Ответ не получен спустя 1 секунду, повторяем отправку
-                }
-            }
-//            while (receivingPacket == null){
-//                clientSocket.send(sendingPacket);
-//                clientSocket.receive(receivingPacket);
-//            }
-            if (nameRequest.equals("registr")){
-                byte[] buf = receivingPacket.getData();
-                participantTable = fillTable(buf); // Заполняем таблицу IP адресов
-                receivingPacket = new DatagramPacket(receivingDataBuffer,receivingDataBuffer.length); // Заново прослушиваем порт
-                clientSocket.receive(receivingPacket); // Получаем сообщение
-                buf = receivingPacket.getData();
-                if (buf[0] == 0){ // Если код запроса сервера = 0
-                    selectRequest("ready");
-                }
-            } else if (nameRequest.equals("table")){
-                byte[] buf = receivingPacket.getData();
-                participantTable = fillTable(buf); // Заполняем таблицу IP адресов
-            }
-
-            clientSocket.close();
-        }
-        catch(SocketException e) {
-            e.printStackTrace();
-        }
-
-
+        return message;
     }
 
     private byte[] reqistrRequest(){
@@ -129,13 +167,14 @@ public class ConnectNigor {
 
     public ArrayList<String> fillTable(byte[] ipList){
         ArrayList<String> participantTable = new ArrayList<>();
-
-        for(int i = 1; i < ipList.length; i += 4){
+        //String[] participantTable = new String[ipList[1]];
+        for(int i = 2; i < ipList.length - 3; i += 4){
             participantTable.add((0xff & (int)ipList[i]) + "." +
                                 (0xff & (int)ipList[i+1]) + "." +
                                 (0xff & (int)ipList[i+2]) + "." +
                                 (0xff & (int)ipList[i+3]));
         }
+        System.out.println(participantTable);
         return participantTable;
     }
 

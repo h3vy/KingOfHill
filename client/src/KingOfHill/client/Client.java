@@ -14,19 +14,18 @@ public class Client {
     static int high = 127;
     static int mid;
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws IOException {
         ConnectNigor mainServer = new ConnectNigor();
-        InetAddress addr = InetAddress.getLocalHost(); // Вычисляем свой ip для дальнейших действий
-        String myIP = addr.getHostAddress(); // Внутренний IP
+        ConnectNigor.initSocket();
         int sendNumber = 0;
         int countPlayer = 0;
         try {
             try {
-                mainServer.selectRequest("registr");
+                mainServer.processingRequest("registr");
                 ArrayList<String> participantTable = ConnectNigor.participantTable;
-                while (participantTable.contains(myIP)){ // Мы играем пока наш IP в списке участников
+                while (participantTable.contains(ConnectNigor.myIP)){ // Мы играем пока наш IP в списке участников
                     String hostPlayer = participantTable.get(countPlayer); // Получаем ip игрока из списка
-                    if (hostPlayer.equals(myIP)) { // Если ip совпадает с нашим
+                    if (hostPlayer.equals(ConnectNigor.myIP)) { // Если ip совпадает с нашим
                         countPlayer += 1; // увеличиваем счетик на 1
                         hostPlayer = participantTable.get(countPlayer); // и берём другой ip
                     }
@@ -45,15 +44,14 @@ public class Client {
                     System.out.println(serverWord);
                     if (serverWord.equals("D")){
                         enemyIP = clientSocket.getInetAddress(); // Получаем Ip игрока перед его смертью
-                        mainServer.selectRequest("kill");
+                        mainServer.processingRequest("kill");
                     }
-                    mainServer.selectRequest("table");
+                    mainServer.processingRequest("table");
                 }
             } catch (Exception e){
                 System.out.println("Ошибка");
             }
             finally {
-                mainServer.selectRequest("delete"); // Отправляем запрос о нашей смерти
                 clientSocket.close();
                 in.close();
                 out.close();
