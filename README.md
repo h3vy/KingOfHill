@@ -1,88 +1,95 @@
-<h1 align="center">VueSolitaire</h1>
-<h2 align="center">
+# Project Title
 
-[![Mentioned in Awesome Vue.js](https://awesome.re/mentioned-badge.svg)](https://github.com/vuejs/awesome-vue)
+One Paragraph of the project description
 
-</h2>
+Initially appeared on
+[gist](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2). But the page cannot open anymore so that is why I have moved it here.
 
+## Getting Started
 
-<h2 align="center"><a  href="https://solitairevue.firebaseapp.com">Live Demo</a></h2>
+These instructions will give you a copy of the project up and running on
+your local machine for development and testing purposes. See deployment
+for notes on deploying the project on a live system.
 
-### [Contributions are Welcome](https://github.com/silent-lad/VueSolitaire/blob/master/CONTRIBUTING.md)
+### Prerequisites
 
-## Description
+Requirements for the software and other tools to build, test and push 
+- [Example 1](https://www.example.com)
+- [Example 2](https://www.example.com)
 
-**NOW WITH DRAG AND DROP**
+### Installing
 
+A step by step series of examples that tell you how to get a development
+environment running
 
-Solitaire implemented by scratch on vue.js. It contains 3 types of solitaire namely spider(which was made famous by microsoft back when I was a kid) ,spider 4 suit and klondike. I've learned web development myself without any course or coaching so don't expect too much from the source code xD.
+Say what the step will be
 
-**This project is inspired by [AadumKhor](https://github.com/AadumKhor) Go check out his flutter implementation of the same [Here](https://github.com/AadumKhor/Solitaire_Flutter)** .
+    Give the example
 
-## How to play
+And repeat
 
-### Drag and Drop [__Chrome,Opera__]:-
+    until finished
 
-- **Drag** the card or the card pile you want to move.
-- **Drop** the dragged card pile on the target and if the move is legal card will move
-- Note:- Drag and Drop doesn't work for properly for **firefox** due to their lack of support to html Drag and drop API - https://bugzilla.mozilla.org/show_bug.cgi?id=505521 .
+End with an example of getting some data out of the system or using it
+for a little demo
 
-### Click edition [__Mobile,Firefox,Chrome,Safari,Opera__]-
+## Running the tests
 
-- **Click** on the card or card pile you want to move .The pile turns to **blue**.
-- **Click** on the
-  destination card and if the move is legal the cards will
-  stack below the target.
+Explain how to run the automated tests for this system
 
-## About the project.
+### Sample Tests
 
-### Drag and Drop
+Explain what these tests test and why
 
-- Drag and drop is implemented with native html5 drag and drop api with @drag, @dragend, @dragenter eventlisteners on the Card.vue component.
-- Libraries like Vue.draggable were not used as i had to write most of the drag and drop logic according to the solitaire game type and I also had to **MOVE** the stack of cards.
-- Ghost image in drag is removed instead the **whole stack** of card moves with cursor change.
+    Give an example
 
-### CSS
+### Style test
 
-- Each and every card is 100% css except the SVG of the suit in the center of the card,which is made by illustrator tool.
+Checks if the best practices and the right coding style has been used.
 
-  <p align="center"><img  src="./readme_assets/4.png" width="30%"></p>
+    Give an example
 
-### 3 mode menu
+## Deployment
 
-Choose from 3 variants of solitaire form the main menu
+Add additional notes to deploy this on a live system
 
-<p align="center"><img  src="./readme_assets/menu.png" width="70%"></p>
+## Built With
 
-# Variants
+  - [Contributor Covenant](https://www.contributor-covenant.org/) - Used
+    for the Code of Conduct
+  - [Creative Commons](https://creativecommons.org/) - Used to choose
+    the license
 
-## **Klondike**
+## Contributing
 
-<p align="center">
-<img  src="./readme_assets/3.png" width="80%">
-</p>
-<!-- <img src="./readme_assets/3.png" width="50%"> -->
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code
+of conduct, and the process for submitting pull requests to us.
 
-## **Spider 4 Suit**
+## Versioning
 
-<p align="center">
-<img  src="./readme_assets/5.png" width="80%">
-</p>
+We use [Semantic Versioning](http://semver.org/) for versioning. For the versions
+available, see the [tags on this
+repository](https://github.com/PurpleBooth/a-good-readme-template/tags).
 
-## **Spider 1 Suit**
+## Authors
 
-<p align="center">
-<img  src="./readme_assets/1.png" width="80%">
-</p>
+  - **Billie Thompson** - *Provided README Template* -
+    [PurpleBooth](https://github.com/PurpleBooth)
 
-## Project setup
+See also the list of
+[contributors](https://github.com/PurpleBooth/a-good-readme-template/contributors)
+who participated in this project.
 
-```
-npm install
-npm run serve
-```
+## License
 
-## Future scope
+This project is licensed under the [CC0 1.0 Universal](LICENSE.md)
+Creative Commons License - see the [LICENSE.md](LICENSE.md) file for
+details
 
-- Add winning animation.
+## Acknowledgments
+
+  - Hat tip to anyone whose code is used
+  - Inspiration
+  - etc
+
 
