@@ -63,16 +63,13 @@ public class ConnectNigor {
                 }
                 break;
             }
-            case 1: { // Запрашиваем таблицу
+            case 1:
+            case 3: { // Запрашиваем таблицу
                 processingRequest("table");
                 break;
             }
             case 2: {
                 participantTable = fillTable(serverResponse); // Заполняем таблицу IP адресов
-                break;
-            }
-            case 3: {
-                serverSocket.receive(receivingPacket);
                 break;
             }
             case 4: { // Запрос, который следует после регистрации

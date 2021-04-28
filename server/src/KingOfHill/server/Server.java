@@ -1,7 +1,12 @@
 package KingOfHill.server;
 
-import java.net.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
 
 
 public class Server {
@@ -15,19 +20,28 @@ public class Server {
     public static void main(String[] args) {
         try{
             try {
-                serverSocket = new ServerSocket(4004); // Слушаем порт
+                serverSocket = new ServerSocket(2222); // Слушаем порт
                 System.out.println("Сервер запущен");
                 clientSocket = serverSocket.accept(); // Ждем подключения
                 try {
+                    PrintWriter output = new PrintWriter(clientSocket.getOutputStream());
+                    Scanner input = new Scanner(clientSocket.getInputStream());
                     while (run){
-                        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                        out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-                        String word = in.readLine(); // Ждем сообщение от клиента
+                        String word = "";
+                        if(input.hasNext()) {
+                            word = input.nextLine();
+                        }
+                        while (word == null || word.equals("")) {
+                            if(input.hasNext()) {
+                                word = input.nextLine();
+                            }
+                        }
                         System.out.println(word);
-                        int number = Integer.parseInt(word); // Строка -> число
+                        int number = Integer.parseInt(word);
                         String answer = answer(number);
-                        out.write(answer);
-                        out.flush();
+                        System.out.println(answer);
+                        output.println(answer);
+                        output.flush();
                         if (answer.equals("D")){
                             run = false;
                         }
