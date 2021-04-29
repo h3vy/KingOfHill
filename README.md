@@ -1,6 +1,6 @@
-# Project Title
+# MainGame
 
-One Paragraph of the project description
+Этот проект - реализация игры, в которой мы пытаемся убить наших соперников путем разгадывания числа, который загадал наш одногруппник(ца). Если мы отгадали число, которое было загадано, то соперник погибает. Связь с между участниками происходит с помощью протокола UDP. Так что перед изучением данной программы советуем изучить, что такое сокет, коммуникация UPD-сокетов в действии, классы DatagramPacket и DatagramSocket.  Этот проект нам был выдан в ВУЗе на дисциплине "Сетевые операционные системы".  
 
 Initially appeared on
 [gist](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2). But the page cannot open anymore so that is why I have moved it here.
