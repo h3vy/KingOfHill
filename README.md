@@ -57,14 +57,20 @@ We use [Semantic Versioning](http://semver.org/) for versioning. For the version
 available, see the [tags on this
 repository](https://github.com/PurpleBooth/a-good-readme-template/tags).
 
-## Authors
+## Авторы
 
-  - **Billie Thompson** - *Provided README Template* -
-    [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of
-[contributors](https://github.com/PurpleBooth/a-good-readme-template/contributors)
-who participated in this project.
+  - **Строеньев Степан** - *Разработка* -
+    [h3vy](https://github.com/h3vy)
+  - **Глазов Александр** - *Разработка, тестирование* -
+    [Glazovaa](https://github.com/Glazovaa)
+  - **Чернышев Матвей** - *Разработка, тестирование* -
+    [ITgigant](https://github.com/ITgigant)
+  - **Томащук Матвей** - *Тестирование, Readme* -
+    [h3vy](https://github.com/h3vy)
+  - **Жигалов Руслан** - *Тестирование* -
+    [Jothief](https://github.com/Jothief)
+  - **Семикова Алина** - *Тестирование* -
+  - **Волкова Виктория** - *Тестирование* -
 
 ## License
 
