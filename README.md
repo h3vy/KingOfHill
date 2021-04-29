@@ -67,7 +67,7 @@ repository](https://github.com/PurpleBooth/a-good-readme-template/tags).
     [ITgigant](https://github.com/ITgigant)
   - **Томащук Матвей** - *Тестирование, Readme* -
     [h3vy](https://github.com/h3vy)
-  - **Жигалов Руслан** - *Тестирование* -
+  - **Жигалов Руслан** - *Тестирование, Readme* -
     [Jothief](https://github.com/Jothief)
   - **Семикова Алина** - *Тестирование*
   - **Волкова Виктория** - *Тестирование*
