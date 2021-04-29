@@ -69,8 +69,8 @@ repository](https://github.com/PurpleBooth/a-good-readme-template/tags).
     [h3vy](https://github.com/h3vy)
   - **Жигалов Руслан** - *Тестирование* -
     [Jothief](https://github.com/Jothief)
-  - **Семикова Алина** - *Тестирование* -
-  - **Волкова Виктория** - *Тестирование* -
+  - **Семикова Алина** - *Тестирование*
+  - **Волкова Виктория** - *Тестирование*
 
 ## License
 
