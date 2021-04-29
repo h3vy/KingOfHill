@@ -33,7 +33,7 @@
   - **Чернышев Матвей** - *Разработка, тестирование* -
     [ITgigant](https://github.com/ITgigant)
   - **Томащук Матвей** - *Тестирование, Readme* -
-    [h3vy](https://github.com/h3vy)
+    [mattomtall](https://github.com/mattomtall)
   - **Жигалов Руслан** - *Тестирование, Readme* -
     [Jothief](https://github.com/Jothief)
   - **Семикова Алина** - *Тестирование*
