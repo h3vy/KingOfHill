@@ -7,19 +7,18 @@
 Для тестирования проекта вам понадобится:
 1) Установить [Java](https://www.oracle.com/ru/java/technologies/javase/javase-jdk8-downloads.html)([IntelliJ IDEA](https://www.jetbrains.com/ru-ru/idea/download/#section=windows));
 2) Скачать [git](https://github.com/h3vy/KingOfHill.git);
-3) Открыть скачанные файлы через IntelliJ IDEA.
 
 ### Установка
 
 1) Разархивируйте скачанный архив в любую папку на вашем ПК;
-2) Откройтке файлы через IntelliJ IDEA;
+2) Откройте файлы через IntelliJ IDEA;
 
 ![image](https://user-images.githubusercontent.com/83367033/116599319-9c419480-a930-11eb-9b1b-acf01742a0c5.png)
 
+3) Нужные для тестирования файлы: Client.java, Server.java;
 
-Say what the step will be
+![image](https://user-images.githubusercontent.com/83367033/116599889-546f3d00-a931-11eb-86df-41f19acb69fa.png)
 
-    Give the example
 
 And repeat
 
