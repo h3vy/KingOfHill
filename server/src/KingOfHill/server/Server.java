@@ -1,7 +1,5 @@
 package KingOfHill.server;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -12,10 +10,8 @@ import java.util.Scanner;
 public class Server {
     private static Socket clientSocket; // Сокет общения
     private static ServerSocket serverSocket; // Сокет сервера
-    private static BufferedReader in; // Чтение из сокета
-    private static BufferedWriter out; // Запись в сокет
     private static Boolean run = true;
-    static int myNum = (int) (Math.random() * 127);
+    static int myNum = (int) (Math.random() * 2147483647);
 
     public static void main(String[] args) {
         try{
@@ -40,23 +36,24 @@ public class Server {
                         int number = Integer.parseInt(word);
                         String answer = answer(number);
                         System.out.println(answer);
+                        Thread.sleep(1000);
                         output.println(answer);
                         output.flush();
                         if (answer.equals("D")){
                             run = false;
                         }
                     }
+                    input.close();
+                    output.close();
                 } finally {
                     clientSocket.close();
-                    in.close();
-                    out.close();
                 }
 
             } finally {
                 System.out.println("Сервер закрыт!");
                 serverSocket.close();
             }
-        } catch (IOException e){
+        } catch (IOException | InterruptedException e){
             System.err.println(e);
         }
     }

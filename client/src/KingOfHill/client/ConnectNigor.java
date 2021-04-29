@@ -95,7 +95,7 @@ public class ConnectNigor {
     }
 
 
-    private byte[] selectRequest(String nameRequest) throws IOException{
+    private byte[] selectRequest(String nameRequest){
         byte[] message = new byte[255];
         switch (nameRequest){
             case ("registr"): message = reqistrRequest(); break;
@@ -151,7 +151,7 @@ public class ConnectNigor {
         byte[] message = new byte[255];
         byte[] ip;
         ip = ia.getAddress();
-        message[0] = (byte) 3;
+        message[0] = (byte) 7;
         System.arraycopy(ip, 0, message, 1, ip.length);
         return message;
     }

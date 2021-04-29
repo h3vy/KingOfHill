@@ -1,7 +1,5 @@
 package KingOfHill.client;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -11,38 +9,38 @@ import java.util.Scanner;
 
 public class Client {
     private static Socket clientSocket;
-    private static BufferedReader in; //Чтение сокета
-    private static BufferedWriter out;
+    private static PrintWriter output;
+    private static Scanner input;
     private static String serverWord = "N";
     public static InetAddress enemyIP;
-    static int low = 0;
-    static int high = 127;
-    static int mid;
+    static long low = 0;
+    static long high = 2147483647;
+    static long mid = (high + low)/2;
 
     public static void main(String[] args) throws IOException {
         ConnectNigor mainServer = new ConnectNigor();
         ConnectNigor.initSocket();
-        int sendNumber = 0;
+        long sendNumber;
         int countPlayer = 0;
         try {
             try {
                 mainServer.processingRequest("registr");
                 ArrayList<String> participantTable = ConnectNigor.participantTable;
-                // Мы играем пока наш IP в списке участников
+                String hostPlayer = participantTable.get(countPlayer);
+                clientSocket = new Socket(hostPlayer, 2222); // Запрашиваем доступ на сервер
+                output = new PrintWriter(clientSocket.getOutputStream());
+                input = new Scanner(clientSocket.getInputStream());
                 while (participantTable.contains(ConnectNigor.myIP)) { // Мы играем пока наш IP в списке участников
-                    String hostPlayer = participantTable.get(countPlayer); // Получаем ip игрока из списка
                     if (hostPlayer.equals(ConnectNigor.myIP)) { // Если ip совпадает с нашим
                         countPlayer += 1; // увеличиваем счетик на 1
                         hostPlayer = participantTable.get(countPlayer); // и берём другой ip
                     }
-                    clientSocket = new Socket(hostPlayer, 2222); // Запрашиваем доступ на сервер
-                    PrintWriter output = new PrintWriter(clientSocket.getOutputStream());
-                    Scanner input = new Scanner(clientSocket.getInputStream());
-                    System.out.println(hostPlayer);
+                    enemyIP = clientSocket.getInetAddress();
                     System.out.println("Подключен");
                     sendNumber = binary_search(serverWord); // Отправляемое число
-                    output.println(sendNumber); // Кидаем сообщение на сервер
+                    output.println(sendNumber);// Кидаем сообщение на сервер
                     output.flush();
+                    System.out.println("send"+sendNumber);
                     String answer = "";
                     if (input.hasNext()) {
                         answer = input.nextLine();
@@ -63,41 +61,37 @@ public class Client {
                         mainServer.processingRequest("kill");
                     }
                     mainServer.processingRequest("table");
-                    input.close();
-                    output.close();
                 }
-            } catch(Exception e){
-                System.out.println("Ошибка");
             }
             finally{
                 clientSocket.close();
+                input.close();
+                output.close();
             }
 
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("Error");
         }
     }
 
     /* Обработка значений */
-    public static int binary_search(String input) {
-        if (input.equals("N")) {
-            return (high -= 1);
-        } else {
-            while (low <= high) {
-                mid = (low + high) / 2;
-                switch (input) {
-                    case "L":
-                        high = mid;
-                        return (high -= 1);
-                    case "R":
-                        low = mid;
-                        return (low += 1);
-                    case "D":
-                        break;
-                }
+    public static long binary_search(String input) {
+        while (low <= high) {
+            switch (input) {
+                case "L":
+                    high = mid - 1;
+                    mid = (low + high) / 2;
+                    return (mid);
+                case "R":
+                    low = mid + 1;
+                    mid = (low + high) / 2;
+                    return (mid);
+                case "D":
+                    break;
+                case "N":
+                    return mid;
             }
         }
         return mid;
     }
-
 }
