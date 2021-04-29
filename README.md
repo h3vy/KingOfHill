@@ -9,16 +9,12 @@
 2) Скачать [git](https://github.com/h3vy/KingOfHill.git);
 3) Открыть скачанные файлы через IntelliJ IDEA.
 
-### Prerequisites
+### Установка
 
-Requirements for the software and other tools to build, test and push 
-- [Example 1](https://www.example.com)
-- [Example 2](https://www.example.com)
+1) Разархивируйте скачанный архив в любую папку на вашем ПК;
+2) Откройтке файлы через IntelliJ IDEA;
+![image](https://user-images.githubusercontent.com/83367033/116598873-09a0f580-a930-11eb-94a5-aad96e374218.png)
 
-### Installing
-
-A step by step series of examples that tell you how to get a development
-environment running
 
 Say what the step will be
 
