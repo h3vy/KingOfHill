@@ -22,7 +22,7 @@ public class ConnectNigor {
     public static void initSocket() throws IOException{ // Инициализация потоков для UDP
         clientSocket = new DatagramSocket();
         serverSocket = new DatagramSocket(RECEIVE_PORT);
-        IPAddress = InetAddress.getByName("127.0.0.1");
+        IPAddress = InetAddress.getByName("25.81.93.212");
         clientSocket.connect(IPAddress,SERVER_PORT);
     }
 
@@ -36,7 +36,7 @@ public class ConnectNigor {
             clientSocket.setSoTimeout(1000);
             boolean continueSending = true;
             int counter = 0;
-            while (continueSending && counter < 10) {
+            while (continueSending && counter < 120) {
                 clientSocket.send(activityPacket);
                 clientSocket.send(sendingPacket);
                 counter++;
@@ -65,6 +65,9 @@ public class ConnectNigor {
             }
             case 1:
             case 3: { // Запрашиваем таблицу
+                if (serverResponse[0]==3){
+                    System.out.println("Chlen");
+                }
                 processingRequest("table");
                 break;
             }
@@ -95,7 +98,7 @@ public class ConnectNigor {
     }
 
 
-    private byte[] selectRequest(String nameRequest){
+    private byte[] selectRequest(String nameRequest) throws IOException{
         byte[] message = new byte[255];
         switch (nameRequest){
             case ("registr"): message = reqistrRequest(); break;
@@ -106,6 +109,10 @@ public class ConnectNigor {
                 InetAddress ipEnemy = Client.enemyIP;
                 message = killRequest(ipEnemy);
                 break;
+            case("death"):
+                ipEnemy = Client.enemyIP;
+                message = deathRequest(ipEnemy);
+                break;
         }
         return message;
     }
@@ -114,7 +121,7 @@ public class ConnectNigor {
         byte[] message = new byte[255];
         ArrayList<Byte> fillMessage = new ArrayList<Byte>();
         String password = "valid cd";
-        String username = "stroenevsd";
+        String username = "Ogor";
 
         fillMessage.add((byte) 0); // Код запроса для регистрации
         for(int i = 0; i < password.length(); i++){
@@ -167,13 +174,21 @@ public class ConnectNigor {
         //String[] participantTable = new String[ipList[1]];
         for(int i = 2; i < ipList.length - 3; i += 4){
             participantTable.add((0xff & (int)ipList[i]) + "." +
-                                (0xff & (int)ipList[i+1]) + "." +
-                                (0xff & (int)ipList[i+2]) + "." +
-                                (0xff & (int)ipList[i+3]));
+                    (0xff & (int)ipList[i+1]) + "." +
+                    (0xff & (int)ipList[i+2]) + "." +
+                    (0xff & (int)ipList[i+3]));
         }
         System.out.println(participantTable);
         return participantTable;
     }
 
+    public static byte[] deathRequest(InetAddress ia){
+        byte[] message = new byte[255];
+        byte[] ip;
+        ip = ia.getAddress();
+        message[0] = (byte) 3;
+        System.arraycopy(ip, 0, message, 1, ip.length);
+        return message;
+    }
 
 }

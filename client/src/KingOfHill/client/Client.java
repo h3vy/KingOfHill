@@ -17,6 +17,7 @@ public class Client {
     static long high = 2147483647;
     static long mid = (high + low)/2;
 
+
     public static void main(String[] args) throws IOException {
         ConnectNigor mainServer = new ConnectNigor();
         ConnectNigor.initSocket();
@@ -27,20 +28,21 @@ public class Client {
                 mainServer.processingRequest("registr");
                 ArrayList<String> participantTable = ConnectNigor.participantTable;
                 String hostPlayer = participantTable.get(countPlayer);
+                if (hostPlayer.equals(ConnectNigor.myIP)) { // Если ip совпадает с нашим
+                    countPlayer += 1; // увеличиваем счетик на 1
+                    hostPlayer = participantTable.get(countPlayer); // и берём другой ip
+                }
                 clientSocket = new Socket(hostPlayer, 2222); // Запрашиваем доступ на сервер
                 output = new PrintWriter(clientSocket.getOutputStream());
                 input = new Scanner(clientSocket.getInputStream());
                 while (participantTable.contains(ConnectNigor.myIP)) { // Мы играем пока наш IP в списке участников
-                    if (hostPlayer.equals(ConnectNigor.myIP)) { // Если ip совпадает с нашим
-                        countPlayer += 1; // увеличиваем счетик на 1
-                        hostPlayer = participantTable.get(countPlayer); // и берём другой ip
-                    }
                     enemyIP = clientSocket.getInetAddress();
                     System.out.println("Подключен");
+                    System.out.println(hostPlayer);
                     sendNumber = binary_search(serverWord); // Отправляемое число
                     output.println(sendNumber);// Кидаем сообщение на сервер
                     output.flush();
-                    System.out.println("send"+sendNumber);
+                    System.out.println("send "+sendNumber);
                     String answer = "";
                     if (input.hasNext()) {
                         answer = input.nextLine();
@@ -79,13 +81,13 @@ public class Client {
         while (low <= high) {
             switch (input) {
                 case "L":
-                    high = mid - 1;
+                    high = mid-1;
                     mid = (low + high) / 2;
-                    return (mid);
+                    return mid;
                 case "R":
-                    low = mid + 1;
+                    low = mid+1;
                     mid = (low + high) / 2;
-                    return (mid);
+                    return mid;
                 case "D":
                     break;
                 case "N":

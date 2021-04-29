@@ -13,7 +13,7 @@ public class Server {
     private static Boolean run = true;
     static int myNum = (int) (Math.random() * 2147483647);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try{
             try {
                 serverSocket = new ServerSocket(2222); // Слушаем порт
@@ -33,6 +33,7 @@ public class Server {
                             }
                         }
                         System.out.println(word);
+                        System.out.println("MyNum:  " + myNum);
                         int number = Integer.parseInt(word);
                         String answer = answer(number);
                         System.out.println(answer);
@@ -40,6 +41,7 @@ public class Server {
                         output.println(answer);
                         output.flush();
                         if (answer.equals("D")){
+                            System.exit(0);
                             run = false;
                         }
                     }
@@ -47,6 +49,7 @@ public class Server {
                     output.close();
                 } finally {
                     clientSocket.close();
+                    System.exit(0);
                 }
 
             } finally {
