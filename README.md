@@ -13,6 +13,7 @@
 
 1) Разархивируйте скачанный архив в любую папку на вашем ПК;
 2) Откройтке файлы через IntelliJ IDEA;
+
 ![image](https://user-images.githubusercontent.com/83367033/116598873-09a0f580-a930-11eb-94a5-aad96e374218.png)
 
 
