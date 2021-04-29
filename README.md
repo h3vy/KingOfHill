@@ -1,41 +1,27 @@
-# Project Title
+# MainGame
 
-One Paragraph of the project description
+Этот проект - реализация игры, в которой мы пытаемся убить наших соперников путем разгадывания числа, который загадал наш одногруппник(ца). Если мы отгадали число, которое было загадано, то соперник погибает. Связь с между участниками происходит с помощью протокола UDP. Так что перед изучением данной программы советуем изучить, что такое сокет, коммуникация UPD-сокетов в действии, классы DatagramPacket и DatagramSocket.  Этот проект нам был выдан в ВУЗе на дисциплине "Сетевые операционные системы".  
 
-Initially appeared on
-[gist](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2). But the page cannot open anymore so that is why I have moved it here.
+## Приступая к работе
 
-## Getting Started
+Для тестирования проекта вам понадобится:
+1) Установить [Java](https://www.oracle.com/ru/java/technologies/javase/javase-jdk8-downloads.html)([IntelliJ IDEA](https://www.jetbrains.com/ru-ru/idea/download/#section=windows));
+2) Скачать [git](https://github.com/h3vy/KingOfHill.git);
 
-These instructions will give you a copy of the project up and running on
-your local machine for development and testing purposes. See deployment
-for notes on deploying the project on a live system.
+### Установка
 
-### Prerequisites
+1) Разархивируйте скачанный архив в любую папку на вашем ПК;
+2) Откройте файлы через IntelliJ IDEA;
 
-Requirements for the software and other tools to build, test and push 
-- [Example 1](https://www.example.com)
-- [Example 2](https://www.example.com)
+![image](https://user-images.githubusercontent.com/83367033/116599319-9c419480-a930-11eb-9b1b-acf01742a0c5.png)
 
-### Installing
+3) Нужные для тестирования файлы: Client.java, Server.java;
 
-A step by step series of examples that tell you how to get a development
-environment running
+![image](https://user-images.githubusercontent.com/83367033/116599889-546f3d00-a931-11eb-86df-41f19acb69fa.png)
 
-Say what the step will be
+## Тестирование
 
-    Give the example
-
-And repeat
-
-    until finished
-
-End with an example of getting some data out of the system or using it
-for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
+Для запуска тестирования требуется запуск двух файлов 1 - Server.java, 2 - Client.java. Именно в этой последовательности!
 
 ### Sample Tests
 
