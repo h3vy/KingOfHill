@@ -19,17 +19,9 @@
 
 ![image](https://user-images.githubusercontent.com/83367033/116599889-546f3d00-a931-11eb-86df-41f19acb69fa.png)
 
+## Тестирование
 
-And repeat
-
-    until finished
-
-End with an example of getting some data out of the system or using it
-for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
+Для запуска тестирования требуется запуск двух файлов 1 - Server.java, 2 - Client.java. Именно в этой последовательности!
 
 ### Sample Tests
 
