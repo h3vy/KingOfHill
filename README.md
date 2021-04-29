@@ -2,14 +2,12 @@
 
 Этот проект - реализация игры, в которой мы пытаемся убить наших соперников путем разгадывания числа, который загадал наш одногруппник(ца). Если мы отгадали число, которое было загадано, то соперник погибает. Связь с между участниками происходит с помощью протокола UDP. Так что перед изучением данной программы советуем изучить, что такое сокет, коммуникация UPD-сокетов в действии, классы DatagramPacket и DatagramSocket.  Этот проект нам был выдан в ВУЗе на дисциплине "Сетевые операционные системы".  
 
-Initially appeared on
-[gist](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2). But the page cannot open anymore so that is why I have moved it here.
+## Приступая к работе
 
-## Getting Started
-
-These instructions will give you a copy of the project up and running on
-your local machine for development and testing purposes. See deployment
-for notes on deploying the project on a live system.
+Для тестирования проекта вам понадобится:
+1) Установить [Java](https://www.oracle.com/ru/java/technologies/javase/javase-jdk8-downloads.html)([IntelliJ IDEA](https://www.jetbrains.com/ru-ru/idea/download/#section=windows));
+2) Скачать [git](https://github.com/h3vy/KingOfHill.git);
+3) Открыть скачанные файлы через IntelliJ IDEA.
 
 ### Prerequisites
 
