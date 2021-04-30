@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.Scanner;
 
 
@@ -23,25 +24,24 @@ public class Server {
                     PrintWriter output = new PrintWriter(clientSocket.getOutputStream());
                     Scanner input = new Scanner(clientSocket.getInputStream());
                     while (run){
-                        String word = "";
-                        if(input.hasNext()) {
-                            word = input.nextLine();
+                        byte[] arr = new byte[4];
+                        clientSocket.getInputStream().read(arr);
+                        for(int i = 0;i <arr.length/2; i++){
+                            byte temp = arr[i];
+                            arr[i] = arr[arr.length - i - 1];
+                            arr[arr.length - i - 1] = temp;
                         }
-                        while (word == null || word.equals("")) {
-                            if(input.hasNext()) {
-                                word = input.nextLine();
-                            }
-                        }
-                        System.out.println(word);
-                        System.out.println("MyNum:  " + myNum);
-                        int number = Integer.parseInt(word);
+                        ByteBuffer wrapped = ByteBuffer.wrap(arr);
+                        int number = wrapped.getInt();
+                        System.out.println(number);
+                        ByteBuffer dbuf = ByteBuffer.allocate(4);
                         String answer = answer(number);
                         System.out.println(answer);
                         Thread.sleep(1000);
-                        output.println(answer);
-                        output.flush();
+                        dbuf.put((byte)(int)answer.charAt(0));
+                        clientSocket.getOutputStream().write(dbuf.array());
+                        System.out.println("MyNum:  " + myNum);
                         if (answer.equals("D")){
-                            System.exit(0);
                             run = false;
                         }
                     }
@@ -63,7 +63,7 @@ public class Server {
 
     public static String answer(int n){
         int num = (int) (Math.random() * 101);
-        if (num < 20){
+        if (num < 105){
             if (myNum < n){
                 return "L";
             }

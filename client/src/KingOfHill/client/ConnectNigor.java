@@ -22,7 +22,7 @@ public class ConnectNigor {
     public static void initSocket() throws IOException{ // Инициализация потоков для UDP
         clientSocket = new DatagramSocket();
         serverSocket = new DatagramSocket(RECEIVE_PORT);
-        IPAddress = InetAddress.getByName("25.81.93.212");
+        IPAddress = InetAddress.getByName("25.85.105.29");
         clientSocket.connect(IPAddress,SERVER_PORT);
     }
 
@@ -110,8 +110,8 @@ public class ConnectNigor {
                 message = killRequest(ipEnemy);
                 break;
             case("death"):
-                ipEnemy = Client.enemyIP;
-                message = deathRequest(ipEnemy);
+                InetAddress ipEnemy2 = Client.enemyIP;
+                message = deathRequest(ipEnemy2);
                 break;
         }
         return message;
@@ -121,7 +121,7 @@ public class ConnectNigor {
         byte[] message = new byte[255];
         ArrayList<Byte> fillMessage = new ArrayList<Byte>();
         String password = "valid cd";
-        String username = "Ogor";
+        String username = "h3vy";
 
         fillMessage.add((byte) 0); // Код запроса для регистрации
         for(int i = 0; i < password.length(); i++){

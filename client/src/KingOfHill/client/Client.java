@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,15 +14,15 @@ public class Client {
     private static Scanner input;
     private static String serverWord = "N";
     public static InetAddress enemyIP;
-    static long low = 0;
-    static long high = 2147483647;
-    static long mid = (high + low)/2;
+    static int low = 0;
+    static int high = 2147483647;
+    static int mid = (high + low)/2;
 
 
     public static void main(String[] args) throws IOException {
         ConnectNigor mainServer = new ConnectNigor();
         ConnectNigor.initSocket();
-        long sendNumber;
+        int sendNumber;
         int countPlayer = 0;
         try {
             try {
@@ -40,22 +41,36 @@ public class Client {
                     System.out.println("Подключен");
                     System.out.println(hostPlayer);
                     sendNumber = binary_search(serverWord); // Отправляемое число
-                    output.println(sendNumber);// Кидаем сообщение на сервер
-                    output.flush();
+                    ByteBuffer dbuf = ByteBuffer.allocate(4);
+                    dbuf.putInt(sendNumber);
+                    byte[] output_array = dbuf.array();
+                    for(int i = 0;i < output_array.length/2; i++){
+                        byte temp = output_array[i];
+                        output_array[i] = output_array[output_array.length - i - 1];
+                        output_array[output_array.length - i - 1] = temp;
+                    }
+                    Thread.sleep(1000);
+                    clientSocket.getOutputStream().write(output_array);
                     System.out.println("send "+sendNumber);
                     String answer = "";
-                    if (input.hasNext()) {
-                        answer = input.nextLine();
+                    /*if (input.hasNext())*/ {
+                        //answer = input.nextLine();
+                        byte[] bytes_input = new byte[1];
+                        clientSocket.getInputStream().read(bytes_input);
+
+                        answer = String.valueOf((char)bytes_input[0]);
+                        System.out.println("Ответ получен сразу");
                     }
                     while (answer == null || answer.equals("")) {
-                        if (input.hasNext()) {
+                        /*if (input.hasNext())*/ {
                             answer = input.nextLine();
+                            System.out.println("Ответ получен сразу с ожиданием");
                         }
                     }
                     serverWord = answer;
+
                     while (serverWord.equals("")) { // Отсылаем сообщение на сервер, если он не отправляет нам ответку
-                        output.println(sendNumber); // Кидаем сообщение на сервер
-                        output.flush();
+                        clientSocket.getOutputStream().write(dbuf.array());
                     }
                     System.out.println(serverWord);
                     if (serverWord.equals("D")) {
@@ -71,23 +86,23 @@ public class Client {
                 output.close();
             }
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.out.println("Error");
         }
     }
 
     /* Обработка значений */
-    public static long binary_search(String input) {
+    public static int binary_search(String input) {
         while (low <= high) {
             switch (input) {
                 case "L":
                     high = mid-1;
                     mid = (low + high) / 2;
-                    return mid;
+                    return (mid);
                 case "R":
                     low = mid+1;
                     mid = (low + high) / 2;
-                    return mid;
+                    return (mid);
                 case "D":
                     break;
                 case "N":
