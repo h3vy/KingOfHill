@@ -32,6 +32,8 @@
     [Glazovaa](https://github.com/Glazovaa)
   - **Чернышев Матвей** - *Разработка, тестирование* -
     [ITgigant](https://github.com/ITgigant)
+  - **Митин Дмитрий** - *Разработка, тестирование* -
+    [dambdmitry](https://github.com/dambdmitry)
   - **Томащук Матвей** - *Тестирование, Readme* -
     [mattomtall](https://github.com/mattomtall)
   - **Жигалов Руслан** - *Тестирование, Readme* -
